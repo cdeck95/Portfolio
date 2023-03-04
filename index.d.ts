@@ -3,6 +3,7 @@ import { CSSProperties } from 'react';
 import * as goober from 'goober';
 
 declare module '*.jpg';
+declare module '*.png';
 
 declare type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'custom';
 declare type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';

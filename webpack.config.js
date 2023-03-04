@@ -13,7 +13,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   resolve: {
-      extensions: ["", ".tsx", ".ts", ".js", ".json", ".scss", ".css", ".jpg", ".mp4"],
+      extensions: ["", ".tsx", ".ts", ".js", ".json", ".scss", ".css", ".jpg", ".png", ".mp4"],
   },
   output: {
     filename: 'bundle.js',
