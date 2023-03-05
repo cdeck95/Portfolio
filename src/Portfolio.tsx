@@ -1,8 +1,8 @@
 import { Box, ImageList, ImageListItem, ImageListItemBar, ThemeProvider } from '@mui/material';
 import React from 'react';
 import InfoIcon from '@mui/icons-material/Info';
-import './App.scss';
-import oaccLogoWhite from "./assets/acc_logo_icon_white.png";
+import './styles/App.scss';
+import oaccLogoWhite from "./assets/accLogo.png";
 
 type Project = {
   id: number;
@@ -38,7 +38,7 @@ const projects: Project[] = [
     id: 4,
     name: 'The Mad Scientist - Discord Bot',
     description: 'A Discord Bot that returns the image for the requested token, with a blurb asbout whether that token suffered side effects during the experience.',
-    image: '[Project 3 Image URL]',
+    image: oaccLogoWhite,
     link: 'https://github.com/cdeck95/ACC-Discord-Bot',
   },
 ];

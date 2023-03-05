@@ -14,14 +14,19 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #FFFBF5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #674188;
+}
+
+/* Set dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .App-header {color: #F7EFE5; background: #674188;}
 }
 
 .App-link {
@@ -49,3 +54,6 @@
   width: 100%;
   display: flex;
 }
+
+
+
