@@ -3,18 +3,20 @@ import React, { useState, useEffect } from 'react';
 import { Link, Element, Events, animateScroll } from 'react-scroll';
 import Portfolio from './Portfolio';
 import Contact from './Contact';
-import SectionComponent from './SectionComponent';
 import About from './About';
-import DarkModeToggleSwitch from './DarkModeToggleSwitch';
-import ThemeContext, { DARK_THEME, LIGHT_THEME, DarkMode } from './styles/theme';
-import Sidebar from 'global/Sidebar';
-import { useTheme } from '@mui/material/styles';
-import { useMediaQuery } from '@mui/material';
+import SocialMediaList from "./SocialMediaList";
+
 
 const sections = [
   {section: <About/>, title: "About"},
   {section: <Portfolio/>, title: "Portfolio"},
   {section: <Contact/>, title: "Contact"},
+];
+
+const socialMediaIcons = [
+  { name: "github", url: "https://github.com/cdeck95/" },
+  { name: "linkedIn", url: "https://www.linkedin.com/in/chrisdeck95/" },
+  { name: "email", url: "mailto:deckchris95@gmail.com" },
 ];
 
 interface DotProps {
@@ -28,14 +30,14 @@ function Dot({ title, active, onClick }: DotProps) {
     height: '12px',
     width: '12px',
     borderRadius: '50%',
-    backgroundColor: active ? '#333' : '#bbb',
+    backgroundColor: active ? '#FFE9B1' : '#FCFDF2',
     margin: "10px",
     cursor: 'pointer',
   };
 
   return (
     <div className="row" onClick={onClick}>
-      <div style={{ fontSize: '16px', fontFamily: "Bebas Neue", margin: "7px"}}>{title}</div>
+      <div className={active ? "Dots-Title-Active" : "Dots-Title"} style={{color: active ? "#FFE9B1"  : "#FCFDF2"}}>{title}</div>
       <div style={style} />
     </div>
   );
@@ -46,11 +48,45 @@ function App() {
 
   const [isSectionChanging, setIsSectionChanging] = useState(false);
 
+  let scrollTimeout: NodeJS.Timeout;
+
 
   useEffect(() => {
-    const handleScroll = (event: { deltaY: any; }) => {
+    // const handleScroll = (event: { deltaY: any; }) => {
+    //   const { deltaY } = event;
+    //   setIsSectionChanging(true);
+    //   if (deltaY > 20) {
+    //     setCurrentSectionIndex((prevIndex) =>
+    //       prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1
+    //     );
+    //   } else if (deltaY < -20) {
+    //     setCurrentSectionIndex((prevIndex) =>
+    //       prevIndex === 0 ? prevIndex : prevIndex - 1
+    //     );
+    //   }
+      
+    //   setTimeout(() => setIsSectionChanging(false), 350);
+    // };
+
+    // const debounce = (fn: any, delay: number) => {
+    //   let timeoutId: any;
+    //   return (...args: any) => {
+    //     clearTimeout(timeoutId);
+    //     timeoutId = setTimeout(() => {
+    //       fn(...args);
+    //     }, delay);
+    //   };
+    // };
+    
+    const handleScroll = (event: { deltaY: any }) => {
       const { deltaY } = event;
+
+      // Start transition right away
       setIsSectionChanging(true);
+
+      // Wait for scrolling to finish before determining next section
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
       if (deltaY > 0) {
         setCurrentSectionIndex((prevIndex) =>
           prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1
@@ -60,9 +96,15 @@ function App() {
           prevIndex === 0 ? prevIndex : prevIndex - 1
         );
       }
-      
-      setTimeout(() => setIsSectionChanging(false), 350);
+
+      setIsSectionChanging(false);
+      }, 50);
     };
+
+
+
+
+
 
     window.addEventListener('wheel', handleScroll);
 
@@ -84,31 +126,8 @@ function App() {
     />
   ));
 
-  interface SectionComponentProps {
-  children: React.ReactNode;
-  isActive: boolean;
-}
-
-function SectionComponent({ children, isActive }: SectionComponentProps) {
-  const [isVisible, setIsVisible] = useState(isActive);
-
-  useEffect(() => {
-    if (isActive) {
-      setIsVisible(true);
-    } else {
-      setTimeout(() => setIsVisible(false), 500); // 500ms is the duration of the fade out animation
-    }
-  }, [isActive]);
-
   return (
-    <div className="SectionComponent" style={{ opacity: isVisible ? 1 : 0 }}>
-      {children}
-    </div>
-  );
-}
-
-  return (
-    <div>
+    <div className="page">
       <head>
         <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap&family=Roboto"
@@ -122,6 +141,7 @@ function SectionComponent({ children, isActive }: SectionComponentProps) {
         </div>
       </section>
       <div className="dots">{dots}</div>
+      <SocialMediaList icons={socialMediaIcons} />
     </div>
     </div>
     

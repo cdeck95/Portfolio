@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  background-color: #7743DB;
 }
 
 .App-logo {
@@ -15,18 +16,41 @@
   }
 }
 
-.App-header {
-  background-color: #FFFBF5;
+.About {
+  background-color: #3B3486;
   min-height: 100vh;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #674188;
+  color: #FCFDF2;
 }
 
+.Portfolio {
+  background-color: #7743DB;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #FCFDF2;
+}
 
+.Contact {
+  background-color: #3B3486;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #FCFDF2;
+}
 
 .dots{
   display: flex;
@@ -39,6 +63,29 @@
   right: 20px;
   transform: translateY(-50%);
   z-index: 1;
+}
+
+.Dots-Title {
+  -webkit-text-stroke: 1px #7743DB;
+  font-size: 22px;
+  font-family: "Bebas Neue";
+  margin-top: 5px;
+  margin-bottom: 7px;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.Dots-Title:hover {
+  cursor: pointer;
+}
+
+.Dots-Title-Active {
+  font-size: 22px;
+  font-family: "Bebas Neue";
+  margin-top: 5px;
+  margin-bottom: 7px;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 .button {
@@ -83,7 +130,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: #7743DB;
   transition: opacity 0.5s ease-in-out;
 }
 
@@ -121,6 +168,44 @@
   transition: opacity 0.5s ease-in-out;
 }
 
+.social-media-list {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 999;
+  padding: 16px;
+}
 
+.social-media-list a {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: none;
+  // background-color: #333;
+  text-decoration: none;
+}
 
+.social-media-list a:hover {
+  border: solid;
+  border-color: #FFE9B1;
+}
 
+.social-media-list-icon {
+  font-size: 24px;
+  color: #fff;
+}
+
+.vertical-bar {
+  width: 2px;
+  height: 40px;
+  background-color: #FFE9B1;
+  margin-top: 10px;
+}

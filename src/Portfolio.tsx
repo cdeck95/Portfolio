@@ -105,7 +105,7 @@ import oaccLogoWhite from "./assets/accLogo.png";
 
 const Portfolio = () => {
   return (
-    <div>
+    <div className="Portfolio">
       <h1>Portfolio</h1>
     </div>
   );
