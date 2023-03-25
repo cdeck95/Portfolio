@@ -52,45 +52,17 @@ function App() {
 
 
   useEffect(() => {
-    // const handleScroll = (event: { deltaY: any; }) => {
-    //   const { deltaY } = event;
-    //   setIsSectionChanging(true);
-    //   if (deltaY > 20) {
-    //     setCurrentSectionIndex((prevIndex) =>
-    //       prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1
-    //     );
-    //   } else if (deltaY < -20) {
-    //     setCurrentSectionIndex((prevIndex) =>
-    //       prevIndex === 0 ? prevIndex : prevIndex - 1
-    //     );
-    //   }
-      
-    //   setTimeout(() => setIsSectionChanging(false), 350);
-    // };
-
-    // const debounce = (fn: any, delay: number) => {
-    //   let timeoutId: any;
-    //   return (...args: any) => {
-    //     clearTimeout(timeoutId);
-    //     timeoutId = setTimeout(() => {
-    //       fn(...args);
-    //     }, delay);
-    //   };
-    // };
-    
     const handleScroll = (event: { deltaY: any }) => {
-      const { deltaY } = event;
+    const { deltaY } = event;
+    // Start transition right away
+    setIsSectionChanging(true);
 
-      // Start transition right away
-      setIsSectionChanging(true);
-
-      // Wait for scrolling to finish before determining next section
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
+    // Wait for scrolling to finish before determining next section
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
       if (deltaY > 0) {
         setCurrentSectionIndex((prevIndex) =>
-          prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1
-        );
+        prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1);
       } else if (deltaY < 0) {
         setCurrentSectionIndex((prevIndex) =>
           prevIndex === 0 ? prevIndex : prevIndex - 1
@@ -100,12 +72,6 @@ function App() {
       setIsSectionChanging(false);
       }, 50);
     };
-
-
-
-
-
-
     window.addEventListener('wheel', handleScroll);
 
     return () => {
