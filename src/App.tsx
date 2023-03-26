@@ -45,39 +45,82 @@ function Dot({ title, active, onClick }: DotProps) {
 
 function App() {
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-
+  const [scrollDirection, setScrollDirection] = useState("");
   const [isSectionChanging, setIsSectionChanging] = useState(false);
 
   let scrollTimeout: NodeJS.Timeout;
-
+  
+  function debounce<T extends (...args: any[]) => any>(
+    func: T,
+    delay: number
+  ): (...args: Parameters<T>) => void {
+    let timerId: ReturnType<typeof setTimeout>;
+    return function (this: Window, ...args: Parameters<T>) {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
 
   useEffect(() => {
-    const handleScroll = (event: { deltaY: any }) => {
-    const { deltaY } = event;
-    // Start transition right away
-    setIsSectionChanging(true);
+    const handleWheel = (event: { deltaY: number }) => {
+      const { deltaY } = event;
+      // Start transition right away
+      setIsSectionChanging(true);
 
-    // Wait for scrolling to finish before determining next section
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      if (deltaY > 0) {
-        setCurrentSectionIndex((prevIndex) =>
-        prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1);
-      } else if (deltaY < 0) {
-        setCurrentSectionIndex((prevIndex) =>
-          prevIndex === 0 ? prevIndex : prevIndex - 1
-        );
-      }
+      // Wait for scrolling to finish before determining next section
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (deltaY > 0) {
+          setCurrentSectionIndex((prevIndex) =>
+          prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1);
+        } else if (deltaY < 0) {
+          setCurrentSectionIndex((prevIndex) =>
+            prevIndex === 0 ? prevIndex : prevIndex - 1
+          );
+        }
 
-      setIsSectionChanging(false);
-      }, 50);
+        setIsSectionChanging(false);
+        }, 50);
     };
-    window.addEventListener('wheel', handleScroll);
+
+    let lastScrollY = window.pageYOffset;
+    function handleScroll (this: Window, event: Event) {
+      const scrollY = window.pageYOffset;
+      // Start transition right away
+      setIsSectionChanging(true);
+
+      const direction = scrollY > lastScrollY ? "down" : "up";
+            if (direction !== scrollDirection) {
+              setScrollDirection(direction);
+            }
+            lastScrollY = scrollY > 0 ? scrollY : 0;
+
+      // Wait for scrolling to finish before determining next section
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (direction == "down") {
+          setCurrentSectionIndex((prevIndex) =>
+          prevIndex === sections.length - 1 ? prevIndex : prevIndex + 1);
+        } else if (direction == "up") {
+          setCurrentSectionIndex((prevIndex) =>
+            prevIndex === 0 ? prevIndex : prevIndex - 1
+          );
+        }
+
+        setIsSectionChanging(false);
+        }, 50);
+    };
+
+    const debouncedHandleScroll = debounce(handleScroll, 250);
+    window.addEventListener('wheel', handleWheel);
+    window.addEventListener('scroll', debouncedHandleScroll);
+    
 
     return () => {
-      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', debouncedHandleScroll);
     };
-  }, [sections]);
+  }, [sections, scrollDirection]);
 
   const handleDotClick = (index: React.SetStateAction<number>) => {
     setCurrentSectionIndex(index);
